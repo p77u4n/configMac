@@ -1,6 +1,5 @@
 --[[
 lvim is the global options object
-
 Linters should be
 filled in as strings with either
 a global executable or a path to
@@ -12,12 +11,12 @@ an executable
 lvim.log.level = "warn"
 lvim.format_on_save = true
 lvim.colorscheme = "tokyonight"
-
+vim.o.background = "dark"
 -- keymappings [view all the defaults by pressing <leader>Lk]
 lvim.leader = ","
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.normal_mode["<space>"] = "?"
+lvim.keys.normal_mode["<space>"] = "/"
 -- unmap a default keymapping
 -- lvim.keys.normal_mode["<C-Up>"] = false
 -- edit a default keymapping
@@ -55,11 +54,10 @@ lvim.builtin.telescope.defaults.mappings = {
 
 -- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
-lvim.builtin.dashboard.active = true
+lvim.builtin.alpha.active = true
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
-lvim.builtin.nvimtree.show_icons.git = 0
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -92,7 +90,7 @@ lvim.builtin.treesitter.indent = { enable = true, disable = { "python" } }
 -- vim.list_extend(lvim.lsp.override, { "pyright" })
 
 -- ---@usage setup a server -- see: https://www.lunarvim.org/languages/#overriding-the-default-configuration
-local opts = { noremap=true, silent=true } -- check the lspconfig documentation for a list of all possible options
+local opts = { noremap = true, silent = true } -- check the lspconfig documentation for a list of all possible options
 vim.api.nvim_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()<CR>', opts)
 vim.api.nvim_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
 -- require("lvim.lsp.manager").setup("pylsp", opts)
@@ -136,7 +134,7 @@ linters.setup {
   },
   {
     command = "eslint",
-    filetypes = { "javascript", "typescript", "typescriptreact", "typescript.tsx", "javascriptreact", "javascript.jsx"}
+    filetypes = { "javascript", "typescript", "typescriptreact", "typescript.tsx", "javascriptreact", "javascript.jsx" }
   }
   -- pages/{
   --   command = "codespell",
@@ -147,15 +145,16 @@ linters.setup {
 
 -- Additional Plugins
 lvim.plugins = {
-    {
-      "folke/trouble.nvim",
-      cmd = "TroubleToggle",
-    },
-    {
-      'ryanoasis/vim-devicons'
-    },
-    {"folke/tokyonight.nvim"},
-    {"tpope/vim-surround"}
+  {
+    "folke/trouble.nvim",
+    cmd = "TroubleToggle",
+  },
+  {
+    'ryanoasis/vim-devicons'
+  },
+  { "folke/tokyonight.nvim" },
+  { "tpope/vim-surround" },
+  { "NLKNguyen/papercolor-theme" }
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)

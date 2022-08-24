@@ -40,6 +40,16 @@ lvim.builtin.telescope.defaults.mappings = {
   },
 }
 
+lvim.builtin.which_key.mappings["t"] = {
+  name = "Diagnostics",
+  t = { "<cmd>TroubleToggle<cr>", "trouble" },
+  w = { "<cmd>TroubleToggle workspace_diagnostics<cr>", "workspace" },
+  d = { "<cmd>TroubleToggle document_diagnostics<cr>", "document" },
+  q = { "<cmd>TroubleToggle quickfix<cr>", "quickfix" },
+  l = { "<cmd>TroubleToggle loclist<cr>", "loclist" },
+  r = { "<cmd>TroubleToggle lsp_references<cr>", "references" },
+}
+
 -- Use which-key to add extra bindings with the leader-key prefix
 -- lvim.builtin.which_key.mappings["P"] = { "<cmd>Telescope projects<CR>", "Projects" }
 -- lvim.builtin.which_key.mappings["t"] = {
@@ -57,7 +67,12 @@ lvim.builtin.telescope.defaults.mappings = {
 lvim.builtin.alpha.active = true
 lvim.builtin.notify.active = true
 lvim.builtin.terminal.active = true
-lvim.builtin.nvimtree.setup.view.side = "left"
+local nvimtree = lvim.builtin.nvimtree
+nvimtree.setup.view.side = "left"
+nvimtree.setup.update_focused_file.update_cwd = false
+nvimtree.setup.update_cwd = false
+nvimtree.setup.respect_buf_cwd = false
+lvim.builtin.project.manual_mode = true
 
 -- if you don't want all the parsers change this to a table of the ones you want
 lvim.builtin.treesitter.ensure_installed = {
@@ -143,18 +158,46 @@ linters.setup {
   -- },
 }
 
+
 -- Additional Plugins
 lvim.plugins = {
   {
     "folke/trouble.nvim",
     cmd = "TroubleToggle",
+    config = function()
+      require("trouble").setup()
+    end,
   },
   {
     'ryanoasis/vim-devicons'
   },
   { "folke/tokyonight.nvim" },
   { "tpope/vim-surround" },
-  { "NLKNguyen/papercolor-theme" }
+  { "NLKNguyen/papercolor-theme" },
+  {
+    "ethanholz/nvim-lastplace",
+    event = "BufRead",
+    config = function()
+      require("nvim-lastplace").setup({
+        lastplace_ignore_buftype = { "quickfix", "nofile", "help" },
+        lastplace_ignore_filetype = {
+          "gitcommit", "gitrebase", "svn", "hgcommit",
+        },
+        lastplace_open_folds = true,
+      })
+    end,
+  },
+  { "folke/todo-comments.nvim",
+    event = "BufRead",
+    config = function()
+      require("todo-comments").setup()
+    end,
+  }, {
+    "windwp/nvim-ts-autotag",
+    config = function()
+      require("nvim-ts-autotag").setup()
+    end,
+  },
 }
 
 -- Autocommands (https://neovim.io/doc/user/autocmd.html)
